@@ -49,147 +49,54 @@
     </section>
 
     <section class="section section-tight">
-      <div class="container shop-layout">
+      <div class="container shop-layout" id="shop-catalog">
         <aside class="filter-panel" aria-label="Фильтры каталога">
           <h2>Фильтры</h2>
 
           <div class="filter-group">
             <p>Категория</p>
-            <div class="chip-group">
-              <span class="chip chip-active">Все</span>
-              <span class="chip">Пальто</span>
-              <span class="chip">База</span>
-              <span class="chip">Деним</span>
-            </div>
-          </div>
-
-          <div class="filter-group">
-            <p>Размер</p>
-            <div class="chip-group">
-              <span class="chip">XS</span>
-              <span class="chip chip-active">S</span>
-              <span class="chip">M</span>
-              <span class="chip">L</span>
+            <div class="chip-group" id="shop-category-filter">
+              <button class="chip filter-chip chip-active" type="button" data-category="all">Все</button>
+              <button class="chip filter-chip" type="button" data-category="outerwear">Верхняя одежда</button>
+              <button class="chip filter-chip" type="button" data-category="base">База</button>
+              <button class="chip filter-chip" type="button" data-category="denim">Деним</button>
+              <button class="chip filter-chip" type="button" data-category="accessories">Аксессуары</button>
             </div>
           </div>
 
           <div class="filter-group">
             <p>Цена</p>
-            <div class="price-tag">от 2 490 ₽ до 15 990 ₽</div>
+            <div class="price-range">
+              <div class="price-values">
+                <span>от <strong id="shop-min-price">0 ₽</strong></span>
+                <span>до <strong id="shop-max-price">0 ₽</strong></span>
+              </div>
+              <label class="range-wrap" for="shop-price-range">
+                <span>Максимальная цена</span>
+                <input id="shop-price-range" type="range" min="0" max="20000" step="100" value="20000">
+              </label>
+            </div>
           </div>
+
+          <button class="btn btn-ghost filter-reset" type="button" id="shop-reset-filters">Сбросить фильтры</button>
         </aside>
 
-        <div>
-          <div class="section-head section-head-inline">
-            <h2>24 товара</h2>
-            <p class="meta-copy">Сортировка: популярные</p>
+        <div class="catalog-content">
+          <div class="section-head section-head-inline shop-toolbar">
+            <h2><span id="shop-results-count">0</span> товаров</h2>
+            <label class="sort-control" for="shop-sort">
+              <span>Сортировка</span>
+              <select id="shop-sort" name="shop-sort">
+                <option value="popular">По популярности</option>
+                <option value="price-asc">Сначала дешевле</option>
+                <option value="price-desc">Сначала дороже</option>
+                <option value="name-asc">По названию</option>
+              </select>
+            </label>
           </div>
 
-          <div class="shop-grid">
-            <article class="product-card">
-              <div class="product-image product-image-1" aria-hidden="true"></div>
-              <div class="product-meta">
-                <h3>Пальто Drift</h3>
-                <p>Графит</p>
-                <div class="price-row">
-                  <span class="price">9 490 ₽</span>
-                  <span class="price-old">11 990 ₽</span>
-                </div>
-                <a class="card-action" href="product.html">Открыть</a>
-              </div>
-            </article>
-
-            <article class="product-card">
-              <div class="product-image product-image-2" aria-hidden="true"></div>
-              <div class="product-meta">
-                <h3>Рубашка Mono</h3>
-                <p>Молочный</p>
-                <div class="price-row">
-                  <span class="price">4 290 ₽</span>
-                  <span class="price-old">5 190 ₽</span>
-                </div>
-                <a class="card-action" href="product.html">Открыть</a>
-              </div>
-            </article>
-
-            <article class="product-card">
-              <div class="product-image product-image-3" aria-hidden="true"></div>
-              <div class="product-meta">
-                <h3>Джинсы Frame</h3>
-                <p>Глубокий синий</p>
-                <div class="price-row">
-                  <span class="price">5 790 ₽</span>
-                  <span class="price-old">6 490 ₽</span>
-                </div>
-                <a class="card-action" href="product.html">Открыть</a>
-              </div>
-            </article>
-
-            <article class="product-card">
-              <div class="product-image product-image-4" aria-hidden="true"></div>
-              <div class="product-meta">
-                <h3>Сумка Form</h3>
-                <p>Чёрный</p>
-                <div class="price-row">
-                  <span class="price">6 390 ₽</span>
-                  <span class="price-old">7 090 ₽</span>
-                </div>
-                <a class="card-action" href="product.html">Открыть</a>
-              </div>
-            </article>
-
-            <article class="product-card">
-              <div class="product-image product-image-5" aria-hidden="true"></div>
-              <div class="product-meta">
-                <h3>Лонгслив Core</h3>
-                <p>Тёмный беж</p>
-                <div class="price-row">
-                  <span class="price">3 290 ₽</span>
-                  <span class="price-old">3 990 ₽</span>
-                </div>
-                <a class="card-action" href="product.html">Открыть</a>
-              </div>
-            </article>
-
-            <article class="product-card">
-              <div class="product-image product-image-6" aria-hidden="true"></div>
-              <div class="product-meta">
-                <h3>Брюки Loop</h3>
-                <p>Чёрный</p>
-                <div class="price-row">
-                  <span class="price">5 190 ₽</span>
-                  <span class="price-old">5 990 ₽</span>
-                </div>
-                <a class="card-action" href="product.html">Открыть</a>
-              </div>
-            </article>
-
-            <article class="product-card">
-              <div class="product-image product-image-7" aria-hidden="true"></div>
-              <div class="product-meta">
-                <h3>Жакет Edge</h3>
-                <p>Угольный</p>
-                <div class="price-row">
-                  <span class="price">8 790 ₽</span>
-                  <span class="price-old">9 490 ₽</span>
-                </div>
-                <a class="card-action" href="product.html">Открыть</a>
-              </div>
-            </article>
-
-            <article class="product-card">
-              <div class="product-image product-image-8" aria-hidden="true"></div>
-              <div class="product-meta">
-                <h3>Шарф Quiet</h3>
-                <p>Кофейный</p>
-                <div class="price-row">
-                  <span class="price">2 490 ₽</span>
-                  <span class="price-old">2 990 ₽</span>
-                </div>
-                <a class="card-action" href="product.html">Открыть</a>
-              </div>
-            </article>
-          </div>
+          <div class="shop-grid" id="shop-grid" aria-live="polite"></div>
+          <p class="shop-empty" id="shop-empty" hidden>Ничего не найдено. Попробуйте изменить фильтры.</p>
         </div>
       </div>
     </section>
