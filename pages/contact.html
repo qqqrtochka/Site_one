@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noir Atelier | Контакты</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Prata&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="page-glow page-glow-left" aria-hidden="true"></div>
+  <div class="page-glow page-glow-right" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="../index.html" aria-label="Главная Noir Atelier">
+        <span class="logo-mark">NA</span>
+        <span class="logo-text">Noir Atelier</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="site-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="site-nav" id="site-nav" aria-label="Основная навигация">
+        <a href="../index.html">Главная</a>
+        <a href="shop.html">Магазин</a>
+        <a href="product.html">Товар</a>
+        <a href="cart.html">Корзина</a>
+        <a href="checkout.html">Оформление</a>
+        <a href="contact.html" aria-current="page">Контакты</a>
+      </nav>
+
+      <a class="header-cart" href="cart.html" aria-label="Открыть корзину">Корзина <span>2</span></a>
+    </div>
+  </header>
+
+  <main class="page-main">
+    <section class="section page-hero">
+      <div class="container">
+        <p class="eyebrow">Связь с нами</p>
+        <h1>Контакты</h1>
+        <p>Ответим по заказам, доставке, возвратам и поможем подобрать размер.</p>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container contact-layout">
+        <div class="contact-cards">
+          <article class="contact-card">
+            <h2>Шоурум</h2>
+            <p>Москва, ул. Тверская, 14</p>
+            <p>Ежедневно 10:00-22:00</p>
+          </article>
+
+          <article class="contact-card">
+            <h2>Поддержка</h2>
+            <a href="tel:+79990000000">+7 (999) 000-00-00</a>
+            <a href="mailto:hello@noiratelier.ru">hello@noiratelier.ru</a>
+          </article>
+
+          <article class="contact-card">
+            <h2>Соцсети</h2>
+            <a href="#">Telegram</a>
+            <a href="#">Instagram</a>
+          </article>
+        </div>
+
+        <form class="contact-form" action="#" method="post">
+          <h2>Напишите нам</h2>
+          <label class="field">
+            <span>Имя</span>
+            <input type="text" name="name" placeholder="Ваше имя" required>
+          </label>
+          <label class="field">
+            <span>Email</span>
+            <input type="email" name="email" placeholder="you@example.com" required>
+          </label>
+          <label class="field">
+            <span>Сообщение</span>
+            <textarea name="message" rows="6" placeholder="Опишите вопрос" required></textarea>
+          </label>
+          <button class="btn btn-primary" type="submit">Отправить</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="contacts">
+    <div class="container footer-grid">
+      <div>
+        <p class="footer-title">Noir Atelier</p>
+        <p>Базовый гардероб для города в тёмной эстетике.</p>
+      </div>
+
+      <div>
+        <p class="footer-title">Меню</p>
+        <a href="../index.html">Главная</a>
+        <a href="shop.html">Магазин</a>
+        <a href="contact.html">Контакты</a>
+      </div>
+
+      <div>
+        <p class="footer-title">Контакты</p>
+        <a href="tel:+79990000000">+7 (999) 000-00-00</a>
+        <a href="mailto:hello@noiratelier.ru">hello@noiratelier.ru</a>
+        <p>Ежедневно: 09:00 - 21:00</p>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© <span id="current-year"></span> Noir Atelier. Все права защищены.</p>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
