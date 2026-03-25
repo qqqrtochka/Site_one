@@ -39,55 +39,136 @@
     </div>
   </header>
 
-  <main class="page-main">
+  <main class="page-main" id="product-page">
     <section class="section page-hero">
       <div class="container">
         <p class="eyebrow">Карточка товара</p>
         <h1>Пальто Drift</h1>
-        <p>Премиальная шерсть, прямой крой и подкладка для комфортной носки каждый день.</p>
+        <p>Премиальная шерсть, прямой крой и подкладка для комфортной носки в городском ритме.</p>
       </div>
     </section>
 
     <section class="section section-tight">
-      <div class="container product-layout">
-        <div class="gallery-grid" aria-label="Галерея товара">
-          <div class="gallery-main product-image product-image-1"></div>
-          <div class="gallery-thumb product-image product-image-5"></div>
-          <div class="gallery-thumb product-image product-image-7"></div>
+      <div class="container product-layout product-layout-detailed">
+        <div class="product-visuals" id="product-gallery" aria-label="Галерея товара">
+          <div class="product-hero-photo product-image product-image-1" id="product-main-photo" aria-live="polite">
+            <span class="product-badge">Хит</span>
+          </div>
+
+          <div class="product-thumb-grid">
+            <button class="product-thumb product-image product-image-1 is-active" type="button" aria-label="Фото 1" aria-pressed="true" data-image-class="product-image-1"></button>
+            <button class="product-thumb product-image product-image-5" type="button" aria-label="Фото 2" aria-pressed="false" data-image-class="product-image-5"></button>
+            <button class="product-thumb product-image product-image-7" type="button" aria-label="Фото 3" aria-pressed="false" data-image-class="product-image-7"></button>
+          </div>
         </div>
 
-        <aside class="detail-panel">
+        <aside class="detail-panel detail-panel-product">
           <p class="eyebrow">Хит продаж</p>
           <h2>Пальто Drift</h2>
-          <p class="meta-copy">Артикул NA-COAT-031 | Цвет: графит</p>
+          <p class="meta-copy">Артикул NA-COAT-031</p>
+          <p class="product-summary">
+            Модель прямого кроя из смесовой шерсти. Держит форму, сочетается с денимом и классическими брюками,
+            подходит для прохладной весны и осени.
+          </p>
 
           <div class="price-row price-row-large">
             <span class="price">9 490 ₽</span>
             <span class="price-old">11 990 ₽</span>
           </div>
 
-          <div class="size-selector">
-            <p>Размер</p>
-            <div class="chip-group">
-              <span class="chip">XS</span>
-              <span class="chip chip-active">S</span>
-              <span class="chip">M</span>
-              <span class="chip">L</span>
+          <form class="product-form" id="product-form" action="#" method="post">
+            <div class="option-group" aria-label="Выбор размера">
+              <p>Размер</p>
+              <div class="option-list">
+                <button class="option-button" type="button" data-size="XS" aria-pressed="false">XS</button>
+                <button class="option-button is-active" type="button" data-size="S" aria-pressed="true">S</button>
+                <button class="option-button" type="button" data-size="M" aria-pressed="false">M</button>
+                <button class="option-button" type="button" data-size="L" aria-pressed="false">L</button>
+              </div>
             </div>
-          </div>
 
-          <div class="detail-actions">
-            <a class="btn btn-primary" href="cart.html">Добавить в корзину</a>
-            <a class="btn btn-ghost" href="shop.html">Назад в каталог</a>
-          </div>
+            <div class="option-group" aria-label="Выбор цвета">
+              <p>Цвет</p>
+              <div class="option-list option-list-colors">
+                <button class="option-button color-option is-active" type="button" data-color="Графит" aria-pressed="true">
+                  <span class="color-swatch swatch-graphite" aria-hidden="true"></span>
+                  Графит
+                </button>
+                <button class="option-button color-option" type="button" data-color="Песочный" aria-pressed="false">
+                  <span class="color-swatch swatch-sand" aria-hidden="true"></span>
+                  Песочный
+                </button>
+                <button class="option-button color-option" type="button" data-color="Черный" aria-pressed="false">
+                  <span class="color-swatch swatch-black" aria-hidden="true"></span>
+                  Черный
+                </button>
+              </div>
+            </div>
 
-          <ul class="spec-list">
-            <li>Состав: шерсть 70%, вискоза 30%</li>
-            <li>Подкладка: дышащий полиэстер</li>
-            <li>Уход: сухая чистка</li>
-            <li>Доставка: 1-3 рабочих дня</li>
-          </ul>
+            <div class="option-group" aria-label="Выбор количества">
+              <p>Количество</p>
+              <div class="quantity-control">
+                <button class="qty-button" type="button" data-qty-change="-1" aria-label="Уменьшить количество">-</button>
+                <input class="qty-input" id="product-qty" type="number" min="1" max="10" value="1" inputmode="numeric">
+                <button class="qty-button" type="button" data-qty-change="1" aria-label="Увеличить количество">+</button>
+              </div>
+            </div>
+
+            <div class="detail-actions">
+              <button class="btn btn-primary add-to-cart-button" type="submit">Добавить в корзину</button>
+              <a class="btn btn-ghost" href="shop.html">Назад в каталог</a>
+            </div>
+
+            <p class="product-feedback" id="product-feedback" aria-live="polite"></p>
+          </form>
         </aside>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="product-tabs" id="product-tabs">
+          <div class="tab-list" role="tablist" aria-label="Информация о товаре">
+            <button class="tab-button is-active" id="tab-description-button" type="button" role="tab" aria-controls="tab-description" aria-selected="true" data-tab="description">Описание</button>
+            <button class="tab-button" id="tab-specs-button" type="button" role="tab" aria-controls="tab-specs" aria-selected="false" data-tab="specs" tabindex="-1">Характеристики</button>
+            <button class="tab-button" id="tab-reviews-button" type="button" role="tab" aria-controls="tab-reviews" aria-selected="false" data-tab="reviews" tabindex="-1">Отзывы</button>
+          </div>
+
+          <div class="tab-panels">
+            <article class="tab-panel is-active" id="tab-description" role="tabpanel" aria-labelledby="tab-description-button" data-tab-panel="description">
+              <p>
+                Пальто Drift создано как базовый слой городского гардероба: лаконичный силуэт, мягкая линия плеча
+                и длина, которая хорошо работает с кроссовками, ботинками и лоферами.
+              </p>
+              <p>
+                Ткань сохраняет форму, не перегружает образ и легко комбинируется с рубашками, худи и трикотажем.
+              </p>
+            </article>
+
+            <article class="tab-panel" id="tab-specs" role="tabpanel" aria-labelledby="tab-specs-button" data-tab-panel="specs" hidden>
+              <ul class="tab-list-data">
+                <li><span>Состав</span><strong>Шерсть 70%, вискоза 30%</strong></li>
+                <li><span>Подкладка</span><strong>Полиэстер 100%</strong></li>
+                <li><span>Посадка</span><strong>Regular fit</strong></li>
+                <li><span>Сезон</span><strong>Весна / Осень</strong></li>
+                <li><span>Уход</span><strong>Сухая чистка</strong></li>
+              </ul>
+            </article>
+
+            <article class="tab-panel" id="tab-reviews" role="tabpanel" aria-labelledby="tab-reviews-button" data-tab-panel="reviews" hidden>
+              <div class="review-list">
+                <article class="review-card">
+                  <p class="review-head">Анна, 12.03.2026</p>
+                  <p>Очень аккуратная посадка, плотная ткань и приятная длина. На рост 170 взяла размер S.</p>
+                </article>
+                <article class="review-card">
+                  <p class="review-head">Игорь, 05.03.2026</p>
+                  <p>Выбирал подарок. Понравилось качество швов и нейтральный цвет, выглядит дороже своей цены.</p>
+                </article>
+              </div>
+            </article>
+          </div>
+        </div>
       </div>
     </section>
 

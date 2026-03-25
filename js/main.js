@@ -330,3 +330,138 @@ function initShopCatalog() {
 }
 
 initShopCatalog();
+
+function initProductPage() {
+  const productPage = document.getElementById('product-page');
+  if (!productPage) {
+    return;
+  }
+
+  const mainPhoto = document.getElementById('product-main-photo');
+  const thumbs = Array.from(productPage.querySelectorAll('.product-thumb[data-image-class]'));
+  const sizeButtons = Array.from(productPage.querySelectorAll('.option-button[data-size]'));
+  const colorButtons = Array.from(productPage.querySelectorAll('.option-button[data-color]'));
+  const qtyInput = document.getElementById('product-qty');
+  const qtyButtons = Array.from(productPage.querySelectorAll('.qty-button[data-qty-change]'));
+  const productForm = document.getElementById('product-form');
+  const feedback = document.getElementById('product-feedback');
+  const cartBadge = document.querySelector('.header-cart span');
+  const tabButtons = Array.from(productPage.querySelectorAll('.tab-button[data-tab]'));
+  const tabPanels = Array.from(productPage.querySelectorAll('.tab-panel[data-tab-panel]'));
+
+  if (!mainPhoto || !qtyInput || !productForm || !feedback) {
+    return;
+  }
+
+  const imageClasses = Array.from(
+    new Set(thumbs.map((button) => button.dataset.imageClass).filter(Boolean))
+  );
+
+  const state = {
+    size: sizeButtons.find((button) => button.classList.contains('is-active'))?.dataset.size || 'S',
+    color: colorButtons.find((button) => button.classList.contains('is-active'))?.dataset.color || 'Графит',
+    quantity: Number(qtyInput.value) || 1,
+  };
+
+  function toggleOption(buttons, currentButton) {
+    buttons.forEach((button) => {
+      const isActive = button === currentButton;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-pressed', String(isActive));
+    });
+  }
+
+  function setQuantity(value) {
+    const numericValue = Number(value);
+    const normalized = Number.isFinite(numericValue) ? Math.max(1, Math.min(10, numericValue)) : 1;
+    state.quantity = normalized;
+    qtyInput.value = String(normalized);
+  }
+
+  thumbs.forEach((button) => {
+    button.addEventListener('click', () => {
+      const nextClass = button.dataset.imageClass;
+      if (!nextClass) {
+        return;
+      }
+
+      mainPhoto.classList.remove(...imageClasses);
+      mainPhoto.classList.add(nextClass);
+
+      thumbs.forEach((thumb) => {
+        const isActive = thumb === button;
+        thumb.classList.toggle('is-active', isActive);
+        thumb.setAttribute('aria-pressed', String(isActive));
+      });
+    });
+  });
+
+  sizeButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      state.size = button.dataset.size || 'S';
+      toggleOption(sizeButtons, button);
+    });
+  });
+
+  colorButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      state.color = button.dataset.color || 'Графит';
+      toggleOption(colorButtons, button);
+    });
+  });
+
+  qtyButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const delta = Number(button.dataset.qtyChange);
+      setQuantity(state.quantity + delta);
+    });
+  });
+
+  qtyInput.addEventListener('input', (event) => {
+    setQuantity(Number(event.target.value));
+  });
+
+  function openTab(tabName) {
+    tabButtons.forEach((button) => {
+      const isActive = button.dataset.tab === tabName;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-selected', String(isActive));
+      button.setAttribute('tabindex', isActive ? '0' : '-1');
+    });
+
+    tabPanels.forEach((panel) => {
+      const isActive = panel.dataset.tabPanel === tabName;
+      panel.classList.toggle('is-active', isActive);
+      panel.hidden = !isActive;
+    });
+  }
+
+  tabButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const tabName = button.dataset.tab;
+      if (!tabName) {
+        return;
+      }
+      openTab(tabName);
+    });
+  });
+
+  productForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const message = `Добавлено: Пальто Drift, размер ${state.size}, цвет ${state.color}, ${state.quantity} шт.`;
+    feedback.textContent = message;
+    feedback.classList.remove('is-error');
+    feedback.classList.add('is-success');
+
+    if (cartBadge) {
+      const currentCount = Number.parseInt(cartBadge.textContent, 10) || 0;
+      cartBadge.textContent = String(currentCount + state.quantity);
+    }
+  });
+
+  openTab(tabButtons.find((button) => button.classList.contains('is-active'))?.dataset.tab || 'description');
+  setQuantity(state.quantity);
+}
+
+initProductPage();
