@@ -3,10 +3,208 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clothing Store</title>
+  <title>Noir Atelier | Магазин одежды</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Prata&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <h1>Clothing Store</h1>
-  <p>Project structure initialized.</p>
+  <div class="page-glow page-glow-left" aria-hidden="true"></div>
+  <div class="page-glow page-glow-right" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="#top" aria-label="Главная Noir Atelier">
+        <span class="logo-mark">NA</span>
+        <span class="logo-text">Noir Atelier</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="site-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="site-nav" id="site-nav" aria-label="Основная навигация">
+        <a href="#categories">Категории</a>
+        <a href="#bestsellers">Хиты продаж</a>
+        <a href="#about">О бренде</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+
+      <a class="header-cart" href="#" aria-label="Открыть корзину">Корзина <span>2</span></a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero section">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <p class="eyebrow">Новая коллекция весна 2026</p>
+          <h1>Минимализм, который работает каждый день.</h1>
+          <p class="hero-copy">
+            Чистые формы, премиальные ткани и универсальные силуэты для города.
+            Соберите гардероб из вещей, которые сочетаются между собой.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#bestsellers">Смотреть хиты</a>
+            <a class="btn btn-ghost" href="#categories">Все категории</a>
+          </div>
+          <ul class="hero-stats" aria-label="Преимущества магазина">
+            <li>
+              <strong>48h</strong>
+              <span>доставка по стране</span>
+            </li>
+            <li>
+              <strong>14 дней</strong>
+              <span>обмен и возврат</span>
+            </li>
+            <li>
+              <strong>4.9/5</strong>
+              <span>оценка покупателей</span>
+            </li>
+          </ul>
+        </div>
+
+        <aside class="hero-card" aria-label="Главное предложение недели">
+          <p class="hero-card-label">Look of the week</p>
+          <h2>Urban Set</h2>
+          <p>Лонгслив, широкие брюки и тренч в единой палитре.</p>
+          <p class="hero-card-price">12 990 ₽</p>
+          <a href="#bestsellers">Добавить в подборку</a>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="categories">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Категории</p>
+          <h2>Подберите вещи под ваш ритм</h2>
+        </div>
+
+        <div class="category-grid">
+          <article class="category-card">
+            <h3>Верхняя одежда</h3>
+            <p>Пальто, тренчи и куртки с акцентом на посадку.</p>
+            <a href="#">Перейти</a>
+          </article>
+
+          <article class="category-card">
+            <h3>База</h3>
+            <p>Футболки, рубашки и топы нейтральных оттенков.</p>
+            <a href="#">Перейти</a>
+          </article>
+
+          <article class="category-card">
+            <h3>Деним</h3>
+            <p>Прямой, свободный и укороченный крой на каждый день.</p>
+            <a href="#">Перейти</a>
+          </article>
+
+          <article class="category-card">
+            <h3>Аксессуары</h3>
+            <p>Сумки, ремни и очки для завершения образа.</p>
+            <a href="#">Перейти</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="bestsellers">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Хиты продаж</p>
+          <h2>Самые востребованные модели</h2>
+        </div>
+
+        <div class="product-grid">
+          <article class="product-card">
+            <div class="product-image product-image-1" aria-hidden="true"></div>
+            <div class="product-meta">
+              <h3>Пальто Drift</h3>
+              <p>Графит</p>
+              <div class="price-row">
+                <span class="price">9 490 ₽</span>
+                <span class="price-old">11 990 ₽</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image product-image-2" aria-hidden="true"></div>
+            <div class="product-meta">
+              <h3>Рубашка Mono</h3>
+              <p>Молочный</p>
+              <div class="price-row">
+                <span class="price">4 290 ₽</span>
+                <span class="price-old">5 190 ₽</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image product-image-3" aria-hidden="true"></div>
+            <div class="product-meta">
+              <h3>Джинсы Frame</h3>
+              <p>Глубокий синий</p>
+              <div class="price-row">
+                <span class="price">5 790 ₽</span>
+                <span class="price-old">6 490 ₽</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image product-image-4" aria-hidden="true"></div>
+            <div class="product-meta">
+              <h3>Сумка Form</h3>
+              <p>Чёрный</p>
+              <div class="price-row">
+                <span class="price">6 390 ₽</span>
+                <span class="price-old">7 090 ₽</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container about-block">
+        <p class="eyebrow">О бренде</p>
+        <h2>Проектируем одежду вокруг реальной жизни, а не трендов на неделю.</h2>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="contacts">
+    <div class="container footer-grid">
+      <div>
+        <p class="footer-title">Noir Atelier</p>
+        <p>Базовый гардероб для города в тёмной эстетике.</p>
+      </div>
+
+      <div>
+        <p class="footer-title">Меню</p>
+        <a href="#categories">Категории</a>
+        <a href="#bestsellers">Хиты продаж</a>
+        <a href="#about">О бренде</a>
+      </div>
+
+      <div>
+        <p class="footer-title">Контакты</p>
+        <a href="tel:+79990000000">+7 (999) 000-00-00</a>
+        <a href="mailto:hello@noiratelier.ru">hello@noiratelier.ru</a>
+        <p>Ежедневно: 09:00 - 21:00</p>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© <span id="current-year"></span> Noir Atelier. Все права защищены.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
 </body>
 </html>
