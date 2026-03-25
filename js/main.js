@@ -3,7 +3,303 @@ const navToggle = document.querySelector('.nav-toggle');
 const nav = document.querySelector('.site-nav');
 const yearSlot = document.getElementById('current-year');
 
-const formatPrice = (value) => `${value.toLocaleString('ru-RU')} ₽`;
+const CART_STORAGE_KEY = 'noir_atelier_cart_v1';
+
+const SHOP_PRODUCTS = [
+  {
+    id: 'coat-drift',
+    name: 'Пальто Drift',
+    color: 'Графит',
+    category: 'outerwear',
+    categoryLabel: 'Верхняя одежда',
+    price: 9490,
+    oldPrice: 11990,
+    imageClass: 'product-image-1',
+    badge: 'Хит',
+    popularity: 98,
+  },
+  {
+    id: 'trench-flow',
+    name: 'Тренч Flow',
+    color: 'Песочный',
+    category: 'outerwear',
+    categoryLabel: 'Верхняя одежда',
+    price: 10590,
+    oldPrice: 12490,
+    imageClass: 'product-image-5',
+    badge: 'New',
+    popularity: 93,
+  },
+  {
+    id: 'jacket-edge',
+    name: 'Жакет Edge',
+    color: 'Угольный',
+    category: 'outerwear',
+    categoryLabel: 'Верхняя одежда',
+    price: 8790,
+    oldPrice: 9490,
+    imageClass: 'product-image-7',
+    badge: 'Sale',
+    popularity: 88,
+  },
+  {
+    id: 'shirt-mono',
+    name: 'Рубашка Mono',
+    color: 'Молочный',
+    category: 'base',
+    categoryLabel: 'База',
+    price: 4290,
+    oldPrice: 5190,
+    imageClass: 'product-image-2',
+    badge: 'Хит',
+    popularity: 95,
+  },
+  {
+    id: 'longsleeve-core',
+    name: 'Лонгслив Core',
+    color: 'Темный беж',
+    category: 'base',
+    categoryLabel: 'База',
+    price: 3290,
+    oldPrice: 3990,
+    imageClass: 'product-image-6',
+    badge: 'New',
+    popularity: 86,
+  },
+  {
+    id: 'tee-silent',
+    name: 'Футболка Silent',
+    color: 'Белый',
+    category: 'base',
+    categoryLabel: 'База',
+    price: 2490,
+    oldPrice: 2990,
+    imageClass: 'product-image-8',
+    badge: 'База',
+    popularity: 80,
+  },
+  {
+    id: 'jeans-frame',
+    name: 'Джинсы Frame',
+    color: 'Глубокий синий',
+    category: 'denim',
+    categoryLabel: 'Деним',
+    price: 5790,
+    oldPrice: 6490,
+    imageClass: 'product-image-3',
+    badge: 'Хит',
+    popularity: 91,
+  },
+  {
+    id: 'jeans-line',
+    name: 'Джинсы Line',
+    color: 'Индиго',
+    category: 'denim',
+    categoryLabel: 'Деним',
+    price: 5390,
+    oldPrice: 6190,
+    imageClass: 'product-image-4',
+    badge: 'New',
+    popularity: 84,
+  },
+  {
+    id: 'denim-jacket-axis',
+    name: 'Куртка Axis',
+    color: 'Серый деним',
+    category: 'denim',
+    categoryLabel: 'Деним',
+    price: 7690,
+    oldPrice: 8590,
+    imageClass: 'product-image-1',
+    badge: 'Sale',
+    popularity: 82,
+  },
+  {
+    id: 'bag-form',
+    name: 'Сумка Form',
+    color: 'Черный',
+    category: 'accessories',
+    categoryLabel: 'Аксессуары',
+    price: 6390,
+    oldPrice: 7090,
+    imageClass: 'product-image-4',
+    badge: 'Хит',
+    popularity: 94,
+  },
+  {
+    id: 'scarf-quiet',
+    name: 'Шарф Quiet',
+    color: 'Кофейный',
+    category: 'accessories',
+    categoryLabel: 'Аксессуары',
+    price: 2490,
+    oldPrice: 2990,
+    imageClass: 'product-image-8',
+    badge: 'База',
+    popularity: 76,
+  },
+  {
+    id: 'belt-contour',
+    name: 'Ремень Contour',
+    color: 'Темный шоколад',
+    category: 'accessories',
+    categoryLabel: 'Аксессуары',
+    price: 3190,
+    oldPrice: 3690,
+    imageClass: 'product-image-5',
+    badge: 'New',
+    popularity: 74,
+  },
+];
+
+function formatPrice(value) {
+  return `${value.toLocaleString('ru-RU')} ₽`;
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function normalizeImageClass(value) {
+  if (typeof value !== 'string') {
+    return 'product-image-1';
+  }
+
+  const matched = value.match(/product-image-\d+/);
+  return matched ? matched[0] : 'product-image-1';
+}
+
+function normalizeCartItem(rawItem) {
+  if (!rawItem || typeof rawItem !== 'object') {
+    return null;
+  }
+
+  const id = String(rawItem.id || '').trim();
+  const name = String(rawItem.name || '').trim();
+  const price = Number(rawItem.price);
+
+  if (!id || !name || !Number.isFinite(price) || price <= 0) {
+    return null;
+  }
+
+  const oldPriceNumber = Number(rawItem.oldPrice);
+  const oldPrice = Number.isFinite(oldPriceNumber) && oldPriceNumber > price ? oldPriceNumber : null;
+  const quantityNumber = Math.trunc(Number(rawItem.quantity));
+  const quantity = Number.isFinite(quantityNumber) ? Math.max(1, Math.min(99, quantityNumber)) : 1;
+
+  return {
+    id,
+    name,
+    price,
+    oldPrice,
+    color: String(rawItem.color || 'Не указан').trim(),
+    size: String(rawItem.size || 'One Size').trim(),
+    imageClass: normalizeImageClass(rawItem.imageClass),
+    quantity,
+    url: String(rawItem.url || 'product.html').trim(),
+  };
+}
+
+function getStoredCart() {
+  try {
+    const raw = window.localStorage.getItem(CART_STORAGE_KEY);
+    if (!raw) {
+      return [];
+    }
+
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    return parsed.map(normalizeCartItem).filter(Boolean);
+  } catch (error) {
+    return [];
+  }
+}
+
+function setStoredCart(items) {
+  const normalized = Array.isArray(items) ? items.map(normalizeCartItem).filter(Boolean) : [];
+
+  try {
+    window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(normalized));
+  } catch (error) {
+    return;
+  }
+}
+
+function calculateCartTotals(cartItems) {
+  const itemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const delivery = subtotal > 0 ? 0 : 0;
+
+  return {
+    itemCount,
+    subtotal,
+    delivery,
+    total: subtotal + delivery,
+  };
+}
+
+function updateHeaderCartCount() {
+  const cart = getStoredCart();
+  const { itemCount } = calculateCartTotals(cart);
+
+  document.querySelectorAll('.header-cart span').forEach((badge) => {
+    badge.textContent = String(itemCount);
+  });
+}
+
+function addItemToCart(item) {
+  const normalized = normalizeCartItem(item);
+  if (!normalized) {
+    return;
+  }
+
+  const cart = getStoredCart();
+  const existingIndex = cart.findIndex(
+    (line) => line.id === normalized.id && line.size === normalized.size && line.color === normalized.color
+  );
+
+  if (existingIndex >= 0) {
+    cart[existingIndex].quantity = Math.min(99, cart[existingIndex].quantity + normalized.quantity);
+  } else {
+    cart.push(normalized);
+  }
+
+  setStoredCart(cart);
+  updateHeaderCartCount();
+}
+
+function removeItemFromCartByIndex(index) {
+  const cart = getStoredCart();
+
+  if (!Number.isInteger(index) || index < 0 || index >= cart.length) {
+    return;
+  }
+
+  cart.splice(index, 1);
+  setStoredCart(cart);
+  updateHeaderCartCount();
+}
+
+function setCartItemQuantityByIndex(index, quantity) {
+  const cart = getStoredCart();
+  if (!Number.isInteger(index) || index < 0 || index >= cart.length) {
+    return;
+  }
+
+  const nextQuantity = Math.max(1, Math.min(99, Math.trunc(Number(quantity) || 1)));
+  cart[index].quantity = nextQuantity;
+
+  setStoredCart(cart);
+  updateHeaderCartCount();
+}
 
 if (yearSlot) {
   yearSlot.textContent = String(new Date().getFullYear());
@@ -36,153 +332,6 @@ function initShopCatalog() {
     return;
   }
 
-  const products = [
-    {
-      id: 'coat-drift',
-      name: 'Пальто Drift',
-      color: 'Графит',
-      category: 'outerwear',
-      categoryLabel: 'Верхняя одежда',
-      price: 9490,
-      oldPrice: 11990,
-      imageClass: 'product-image-1',
-      badge: 'Хит',
-      popularity: 98,
-    },
-    {
-      id: 'trench-flow',
-      name: 'Тренч Flow',
-      color: 'Песочный',
-      category: 'outerwear',
-      categoryLabel: 'Верхняя одежда',
-      price: 10590,
-      oldPrice: 12490,
-      imageClass: 'product-image-5',
-      badge: 'New',
-      popularity: 93,
-    },
-    {
-      id: 'jacket-edge',
-      name: 'Жакет Edge',
-      color: 'Угольный',
-      category: 'outerwear',
-      categoryLabel: 'Верхняя одежда',
-      price: 8790,
-      oldPrice: 9490,
-      imageClass: 'product-image-7',
-      badge: 'Sale',
-      popularity: 88,
-    },
-    {
-      id: 'shirt-mono',
-      name: 'Рубашка Mono',
-      color: 'Молочный',
-      category: 'base',
-      categoryLabel: 'База',
-      price: 4290,
-      oldPrice: 5190,
-      imageClass: 'product-image-2',
-      badge: 'Хит',
-      popularity: 95,
-    },
-    {
-      id: 'longsleeve-core',
-      name: 'Лонгслив Core',
-      color: 'Темный беж',
-      category: 'base',
-      categoryLabel: 'База',
-      price: 3290,
-      oldPrice: 3990,
-      imageClass: 'product-image-6',
-      badge: 'New',
-      popularity: 86,
-    },
-    {
-      id: 'tee-silent',
-      name: 'Футболка Silent',
-      color: 'Белый',
-      category: 'base',
-      categoryLabel: 'База',
-      price: 2490,
-      oldPrice: 2990,
-      imageClass: 'product-image-8',
-      badge: 'База',
-      popularity: 80,
-    },
-    {
-      id: 'jeans-frame',
-      name: 'Джинсы Frame',
-      color: 'Глубокий синий',
-      category: 'denim',
-      categoryLabel: 'Деним',
-      price: 5790,
-      oldPrice: 6490,
-      imageClass: 'product-image-3',
-      badge: 'Хит',
-      popularity: 91,
-    },
-    {
-      id: 'jeans-line',
-      name: 'Джинсы Line',
-      color: 'Индиго',
-      category: 'denim',
-      categoryLabel: 'Деним',
-      price: 5390,
-      oldPrice: 6190,
-      imageClass: 'product-image-4',
-      badge: 'New',
-      popularity: 84,
-    },
-    {
-      id: 'denim-jacket-axis',
-      name: 'Куртка Axis',
-      color: 'Серый деним',
-      category: 'denim',
-      categoryLabel: 'Деним',
-      price: 7690,
-      oldPrice: 8590,
-      imageClass: 'product-image-1',
-      badge: 'Sale',
-      popularity: 82,
-    },
-    {
-      id: 'bag-form',
-      name: 'Сумка Form',
-      color: 'Черный',
-      category: 'accessories',
-      categoryLabel: 'Аксессуары',
-      price: 6390,
-      oldPrice: 7090,
-      imageClass: 'product-image-4',
-      badge: 'Хит',
-      popularity: 94,
-    },
-    {
-      id: 'scarf-quiet',
-      name: 'Шарф Quiet',
-      color: 'Кофейный',
-      category: 'accessories',
-      categoryLabel: 'Аксессуары',
-      price: 2490,
-      oldPrice: 2990,
-      imageClass: 'product-image-8',
-      badge: 'База',
-      popularity: 76,
-    },
-    {
-      id: 'belt-contour',
-      name: 'Ремень Contour',
-      color: 'Темный шоколад',
-      category: 'accessories',
-      categoryLabel: 'Аксессуары',
-      price: 3190,
-      oldPrice: 3690,
-      imageClass: 'product-image-5',
-      badge: 'New',
-      popularity: 74,
-    },
-  ];
-
   const categoryButtons = Array.from(catalog.querySelectorAll('.filter-chip'));
   const priceRange = document.getElementById('shop-price-range');
   const minPriceLabel = document.getElementById('shop-min-price');
@@ -192,6 +341,7 @@ function initShopCatalog() {
   const resetButton = document.getElementById('shop-reset-filters');
   const grid = document.getElementById('shop-grid');
   const emptyState = document.getElementById('shop-empty');
+  const feedback = document.getElementById('shop-feedback');
 
   if (
     !priceRange ||
@@ -206,8 +356,8 @@ function initShopCatalog() {
     return;
   }
 
-  const minPrice = Math.min(...products.map((product) => product.price));
-  const maxPrice = Math.max(...products.map((product) => product.price));
+  const minPrice = Math.min(...SHOP_PRODUCTS.map((product) => product.price));
+  const maxPrice = Math.max(...SHOP_PRODUCTS.map((product) => product.price));
 
   const state = {
     category: 'all',
@@ -252,7 +402,7 @@ function initShopCatalog() {
     minPriceLabel.textContent = formatPrice(minPrice);
     maxPriceLabel.textContent = formatPrice(state.maxPrice);
 
-    const filtered = products.filter((product) => {
+    const filtered = SHOP_PRODUCTS.filter((product) => {
       const matchCategory = state.category === 'all' || product.category === state.category;
       const matchPrice = product.price <= state.maxPrice;
       return matchCategory && matchPrice;
@@ -280,13 +430,16 @@ function initShopCatalog() {
               <span class="product-badge">${product.badge}</span>
             </div>
             <div class="product-meta">
-              <h3>${product.name}</h3>
-              <p>${product.color} · ${product.categoryLabel}</p>
+              <h3>${escapeHtml(product.name)}</h3>
+              <p>${escapeHtml(product.color)} · ${escapeHtml(product.categoryLabel)}</p>
               <div class="price-row">
                 <span class="price">${formatPrice(product.price)}</span>
                 ${oldPriceHtml}
               </div>
-              <a class="card-action" href="product.html">Открыть</a>
+              <div class="shop-card-actions">
+                <a class="card-action" href="product.html">Открыть</a>
+                <button class="card-action card-action-add" type="button" data-action="add-to-cart" data-product-id="${product.id}">В корзину</button>
+              </div>
             </div>
           </article>
         `;
@@ -321,15 +474,49 @@ function initShopCatalog() {
     priceRange.value = String(maxPrice);
     sortSelect.value = 'popular';
 
+    if (feedback) {
+      feedback.textContent = '';
+      feedback.classList.remove('is-success', 'is-error');
+    }
+
     setActiveCategory();
     renderCatalog();
+  });
+
+  grid.addEventListener('click', (event) => {
+    const button = event.target.closest('button[data-action="add-to-cart"]');
+    if (!button) {
+      return;
+    }
+
+    const productId = button.dataset.productId;
+    const product = SHOP_PRODUCTS.find((item) => item.id === productId);
+    if (!product) {
+      return;
+    }
+
+    addItemToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      oldPrice: product.oldPrice,
+      color: product.color,
+      size: 'M',
+      imageClass: product.imageClass,
+      quantity: 1,
+      url: 'product.html',
+    });
+
+    if (feedback) {
+      feedback.textContent = `Добавлено в корзину: ${product.name}`;
+      feedback.classList.remove('is-error');
+      feedback.classList.add('is-success');
+    }
   });
 
   setActiveCategory();
   renderCatalog();
 }
-
-initShopCatalog();
 
 function initProductPage() {
   const productPage = document.getElementById('product-page');
@@ -345,13 +532,20 @@ function initProductPage() {
   const qtyButtons = Array.from(productPage.querySelectorAll('.qty-button[data-qty-change]'));
   const productForm = document.getElementById('product-form');
   const feedback = document.getElementById('product-feedback');
-  const cartBadge = document.querySelector('.header-cart span');
   const tabButtons = Array.from(productPage.querySelectorAll('.tab-button[data-tab]'));
   const tabPanels = Array.from(productPage.querySelectorAll('.tab-panel[data-tab-panel]'));
 
   if (!mainPhoto || !qtyInput || !productForm || !feedback) {
     return;
   }
+
+  const baseProduct = SHOP_PRODUCTS.find((product) => product.id === 'coat-drift') || {
+    id: 'coat-drift',
+    name: 'Пальто Drift',
+    price: 9490,
+    oldPrice: 11990,
+    imageClass: 'product-image-1',
+  };
 
   const imageClasses = Array.from(
     new Set(thumbs.map((button) => button.dataset.imageClass).filter(Boolean))
@@ -373,7 +567,7 @@ function initProductPage() {
 
   function setQuantity(value) {
     const numericValue = Number(value);
-    const normalized = Number.isFinite(numericValue) ? Math.max(1, Math.min(10, numericValue)) : 1;
+    const normalized = Number.isFinite(numericValue) ? Math.max(1, Math.min(10, Math.trunc(numericValue))) : 1;
     state.quantity = normalized;
     qtyInput.value = String(normalized);
   }
@@ -418,7 +612,7 @@ function initProductPage() {
   });
 
   qtyInput.addEventListener('input', (event) => {
-    setQuantity(Number(event.target.value));
+    setQuantity(event.target.value);
   });
 
   function openTab(tabName) {
@@ -449,19 +643,163 @@ function initProductPage() {
   productForm.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    const message = `Добавлено: Пальто Drift, размер ${state.size}, цвет ${state.color}, ${state.quantity} шт.`;
-    feedback.textContent = message;
+    const currentImageClass = imageClasses.find((className) => mainPhoto.classList.contains(className)) || baseProduct.imageClass;
+
+    addItemToCart({
+      id: baseProduct.id,
+      name: baseProduct.name,
+      price: baseProduct.price,
+      oldPrice: baseProduct.oldPrice,
+      color: state.color,
+      size: state.size,
+      imageClass: currentImageClass,
+      quantity: state.quantity,
+      url: 'product.html',
+    });
+
+    feedback.textContent = `Добавлено: ${baseProduct.name}, размер ${state.size}, цвет ${state.color}, ${state.quantity} шт.`;
     feedback.classList.remove('is-error');
     feedback.classList.add('is-success');
-
-    if (cartBadge) {
-      const currentCount = Number.parseInt(cartBadge.textContent, 10) || 0;
-      cartBadge.textContent = String(currentCount + state.quantity);
-    }
   });
 
   openTab(tabButtons.find((button) => button.classList.contains('is-active'))?.dataset.tab || 'description');
   setQuantity(state.quantity);
 }
 
+function initCartPage() {
+  const cartPage = document.getElementById('cart-page');
+  if (!cartPage) {
+    return;
+  }
+
+  const list = document.getElementById('cart-items-list');
+  const emptyState = document.getElementById('cart-empty');
+  const summary = document.getElementById('cart-summary');
+  const itemsTotalLabel = document.getElementById('cart-items-total');
+  const subtotalLabel = document.getElementById('cart-subtotal');
+  const deliveryLabel = document.getElementById('cart-delivery');
+  const totalLabel = document.getElementById('cart-total');
+
+  if (
+    !list ||
+    !emptyState ||
+    !summary ||
+    !itemsTotalLabel ||
+    !subtotalLabel ||
+    !deliveryLabel ||
+    !totalLabel
+  ) {
+    return;
+  }
+
+  function renderCart() {
+    const cart = getStoredCart();
+    const totals = calculateCartTotals(cart);
+
+    itemsTotalLabel.textContent = String(totals.itemCount);
+    subtotalLabel.textContent = formatPrice(totals.subtotal);
+    deliveryLabel.textContent = formatPrice(totals.delivery);
+    totalLabel.textContent = formatPrice(totals.total);
+
+    summary.classList.toggle('is-empty', cart.length === 0);
+
+    if (cart.length === 0) {
+      list.innerHTML = '';
+      emptyState.hidden = false;
+      return;
+    }
+
+    emptyState.hidden = true;
+
+    list.innerHTML = cart
+      .map((item, index) => {
+        const lineTotal = item.price * item.quantity;
+
+        return `
+          <article class="cart-item" data-index="${index}">
+            <div class="cart-thumb product-image ${item.imageClass}" aria-hidden="true"></div>
+            <div class="cart-meta">
+              <h2>${escapeHtml(item.name)}</h2>
+              <p>Размер: ${escapeHtml(item.size)} | Цвет: ${escapeHtml(item.color)}</p>
+              <button class="cart-remove" type="button" data-action="remove-item" data-index="${index}">Удалить</button>
+            </div>
+            <div class="cart-line-controls">
+              <div class="quantity-control cart-qty-control">
+                <button class="qty-button" type="button" data-action="decrease-item" data-index="${index}" aria-label="Уменьшить количество">-</button>
+                <input class="qty-input" type="number" min="1" max="99" value="${item.quantity}" data-action="input-item-qty" data-index="${index}" aria-label="Количество товара ${escapeHtml(item.name)}">
+                <button class="qty-button" type="button" data-action="increase-item" data-index="${index}" aria-label="Увеличить количество">+</button>
+              </div>
+            </div>
+            <div class="cart-price">${formatPrice(lineTotal)}</div>
+          </article>
+        `;
+      })
+      .join('');
+  }
+
+  list.addEventListener('click', (event) => {
+    const control = event.target.closest('[data-action]');
+    if (!control) {
+      return;
+    }
+
+    const index = Number(control.dataset.index);
+    if (!Number.isInteger(index)) {
+      return;
+    }
+
+    const cart = getStoredCart();
+    const line = cart[index];
+    if (!line) {
+      return;
+    }
+
+    if (control.dataset.action === 'remove-item') {
+      removeItemFromCartByIndex(index);
+      renderCart();
+      return;
+    }
+
+    if (control.dataset.action === 'decrease-item') {
+      const nextQuantity = line.quantity - 1;
+      if (nextQuantity <= 0) {
+        removeItemFromCartByIndex(index);
+      } else {
+        setCartItemQuantityByIndex(index, nextQuantity);
+      }
+      renderCart();
+      return;
+    }
+
+    if (control.dataset.action === 'increase-item') {
+      setCartItemQuantityByIndex(index, line.quantity + 1);
+      renderCart();
+    }
+  });
+
+  list.addEventListener('change', (event) => {
+    const input = event.target;
+    if (!(input instanceof HTMLInputElement)) {
+      return;
+    }
+
+    if (input.dataset.action !== 'input-item-qty') {
+      return;
+    }
+
+    const index = Number(input.dataset.index);
+    if (!Number.isInteger(index)) {
+      return;
+    }
+
+    setCartItemQuantityByIndex(index, input.value);
+    renderCart();
+  });
+
+  renderCart();
+}
+
+updateHeaderCartCount();
+initShopCatalog();
 initProductPage();
+initCartPage();

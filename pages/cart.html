@@ -35,63 +35,49 @@
         <a href="contact.html">Контакты</a>
       </nav>
 
-      <a class="header-cart" href="cart.html" aria-label="Открыть корзину">Корзина <span>2</span></a>
+      <a class="header-cart" href="cart.html" aria-label="Открыть корзину">Корзина <span>0</span></a>
     </div>
   </header>
 
-  <main class="page-main">
+  <main class="page-main" id="cart-page">
     <section class="section page-hero">
       <div class="container">
         <p class="eyebrow">Ваш заказ</p>
         <h1>Корзина</h1>
-        <p>Проверьте состав заказа перед оформлением и добавьте промокод при необходимости.</p>
+        <p>Проверьте состав заказа перед оформлением и измените количество товаров при необходимости.</p>
       </div>
     </section>
 
     <section class="section section-tight">
       <div class="container cart-layout">
-        <div class="cart-items" aria-label="Список товаров в корзине">
-          <article class="cart-item">
-            <div class="cart-thumb product-image product-image-1" aria-hidden="true"></div>
-            <div class="cart-meta">
-              <h2>Пальто Drift</h2>
-              <p>Размер: S | Цвет: графит</p>
-              <a href="#">Удалить</a>
-            </div>
-            <div class="cart-qty" aria-label="Количество товара">1 шт.</div>
-            <div class="cart-price">9 490 ₽</div>
-          </article>
+        <div class="cart-items" id="cart-items-list" aria-live="polite" aria-label="Список товаров в корзине"></div>
 
-          <article class="cart-item">
-            <div class="cart-thumb product-image product-image-6" aria-hidden="true"></div>
-            <div class="cart-meta">
-              <h2>Брюки Loop</h2>
-              <p>Размер: M | Цвет: чёрный</p>
-              <a href="#">Удалить</a>
-            </div>
-            <div class="cart-qty" aria-label="Количество товара">1 шт.</div>
-            <div class="cart-price">5 190 ₽</div>
-          </article>
-        </div>
-
-        <aside class="summary-card">
+        <aside class="summary-card" id="cart-summary">
           <h2>Сумма заказа</h2>
           <div class="summary-row">
-            <span>Товары</span>
-            <strong>14 680 ₽</strong>
+            <span>Товары (<span id="cart-items-total">0</span>)</span>
+            <strong id="cart-subtotal">0 ₽</strong>
           </div>
           <div class="summary-row">
             <span>Доставка</span>
-            <strong>0 ₽</strong>
+            <strong id="cart-delivery">0 ₽</strong>
           </div>
           <div class="summary-row summary-total">
             <span>Итого</span>
-            <strong>14 680 ₽</strong>
+            <strong id="cart-total">0 ₽</strong>
           </div>
 
           <a class="btn btn-primary" href="checkout.html">Перейти к оплате</a>
           <a class="btn btn-ghost" href="shop.html">Продолжить покупки</a>
         </aside>
+      </div>
+
+      <div class="container">
+        <div class="cart-empty" id="cart-empty" hidden>
+          <h2>Корзина пока пуста</h2>
+          <p>Добавьте товары из каталога и вернитесь сюда для оформления заказа.</p>
+          <a class="btn btn-primary" href="shop.html">Перейти в магазин</a>
+        </div>
       </div>
     </section>
   </main>

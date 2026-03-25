@@ -708,11 +708,26 @@ a {
   grid-template-rows: auto 1fr;
 }
 
-.card-action {
+.shop-card-actions {
   margin-top: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.card-action {
   color: var(--accent);
   font-size: 0.85rem;
   font-weight: 600;
+}
+
+.card-action-add {
+  border: 0;
+  background: transparent;
+  font: inherit;
+  padding: 0;
+  cursor: pointer;
 }
 
 .product-badge {
@@ -736,6 +751,21 @@ a {
   padding: 1rem;
   color: var(--muted);
   text-align: center;
+}
+
+.shop-feedback {
+  min-height: 1.2rem;
+  margin-top: 0.7rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.shop-feedback.is-success {
+  color: #a6c996;
+}
+
+.shop-feedback.is-error {
+  color: #d0a0a0;
 }
 
 .product-layout {
@@ -1080,6 +1110,10 @@ a {
   overflow: hidden;
 }
 
+.cart-items:empty {
+  display: none;
+}
+
 .cart-item {
   display: grid;
   grid-template-columns: 84px 1fr auto auto;
@@ -1115,6 +1149,32 @@ a {
   font-size: 0.84rem;
 }
 
+.cart-remove {
+  margin-top: 0.4rem;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-size: 0.84rem;
+  padding: 0;
+  cursor: pointer;
+}
+
+.cart-line-controls {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cart-qty-control {
+  grid-template-columns: 32px 52px 32px;
+}
+
+.cart-qty-control .qty-input {
+  min-width: 0;
+  padding: 0.2rem 0.3rem;
+  font-size: 0.9rem;
+}
+
 .cart-qty {
   color: var(--muted);
   font-size: 0.9rem;
@@ -1123,6 +1183,7 @@ a {
 .cart-price {
   font-weight: 700;
   white-space: nowrap;
+  text-align: right;
 }
 
 .summary-card {
@@ -1141,6 +1202,10 @@ a {
   margin-bottom: 0.2rem;
 }
 
+.summary-card.is-empty {
+  opacity: 0.75;
+}
+
 .summary-row {
   display: flex;
   justify-content: space-between;
@@ -1157,6 +1222,24 @@ a {
   padding-top: 0.7rem;
   margin-top: 0.2rem;
   color: var(--text);
+}
+
+.cart-empty {
+  margin-top: 1rem;
+  border: 1px dashed #3a4258;
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: grid;
+  gap: 0.7rem;
+  justify-items: start;
+}
+
+.cart-empty h2 {
+  font-size: 1.55rem;
+}
+
+.cart-empty p {
+  color: var(--muted);
 }
 
 .checkout-layout {
@@ -1466,7 +1549,7 @@ a {
     align-items: start;
   }
 
-  .cart-qty,
+  .cart-line-controls,
   .cart-price {
     grid-column: 2;
   }
