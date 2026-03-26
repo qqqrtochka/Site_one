@@ -1,0 +1,651 @@
+/* Базовые сбросы и настройки */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Manrope', sans-serif;
+	/* Используем Manrope как основной шрифт */
+	line-height: 1.6;
+	color: #333;
+	background-color: #f4f4f4;
+	/* Светлый фон для страницы */
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+li,
+a,
+button {
+	font-family: inherit;
+	/* Наследуем шрифт от body */
+}
+
+/* Шрифты */
+.logo-text,
+h1,
+h2,
+.hero-card-label,
+.hero-card-title,
+.section-head h2,
+.product-meta h3,
+.footer-title {
+	font-family: 'Prata', serif;
+	/* Используем Prata для заголовков и логотипа */
+}
+
+/* Эффекты свечения */
+.page-glow {
+	position: fixed;
+	background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 60%);
+	pointer-events: none;
+	/* Чтобы не мешали взаимодействию */
+	z-index: -1;
+}
+
+.page-glow-left {
+	top: 0;
+	left: 0;
+	width: 50vw;
+	height: 100vh;
+	transform: translateX(-30%);
+}
+
+.page-glow-right {
+	top: 0;
+	right: 0;
+	width: 50vw;
+	height: 100vh;
+	transform: translateX(30%);
+}
+
+/* Контейнер для центрирования контента */
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 20px;
+	/* Горизонтальные отступы */
+}
+
+/* Шапка сайта */
+.site-header {
+	background: #ffffff;
+	padding: 1rem 0;
+	border-bottom: 1px solid #e0e0e0;
+	position: sticky;
+	/* Фиксируем шапку при прокрутке */
+	top: 0;
+	z-index: 1000;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.header-inner {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.logo {
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	color: #333;
+}
+
+.logo-mark {
+	background-color: #333;
+	color: #fff;
+	font-weight: 700;
+	padding: 0.3em 0.6em;
+	border-radius: 4px;
+	margin-right: 0.5em;
+	font-size: 1.1rem;
+}
+
+.logo-text {
+	font-weight: 700;
+	font-size: 1.5rem;
+}
+
+/* Кнопка мобильного меню */
+.nav-toggle {
+	display: none;
+	/* Скрыта по умолчанию на больших экранах */
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 10px;
+}
+
+.nav-toggle span {
+	display: block;
+	width: 25px;
+	height: 3px;
+	background-color: #333;
+	margin: 5px 0;
+	transition: all 0.3s ease-in-out;
+}
+
+/* Навигационное меню */
+.site-nav {
+	display: flex;
+	gap: 20px;
+	/* Расстояние между пунктами меню */
+}
+
+.site-nav a {
+	text-decoration: none;
+	color: #333;
+	font-weight: 600;
+	transition: color 0.3s ease;
+	position: relative;
+	/* Для подчеркивания */
+}
+
+.site-nav a:hover,
+.site-nav a[aria-current="page"] {
+	color: #007bff;
+	/* Или ваш основной цвет бренда, например, #0056b3 */
+}
+
+.site-nav a[aria-current="page"]::after {
+	content: '';
+	position: absolute;
+	bottom: -2px;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	background-color: #007bff;
+	/* Цвет подчеркивания */
+}
+
+
+.header-cart {
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	color: #333;
+	font-weight: 600;
+}
+
+.header-cart span {
+	background-color: #007bff;
+	color: white;
+	border-radius: 50%;
+	width: 20px;
+	height: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 0.8rem;
+	margin-left: 8px;
+}
+
+/* Основной контент */
+main {
+	padding-top: 2rem;
+	/* Добавляем отступ сверху, чтобы контент не залезал под хедер */
+}
+
+.section {
+	padding: 4rem 0;
+	/* Вертикальные отступы для секций */
+}
+
+.section-head {
+	text-align: center;
+	margin-bottom: 3rem;
+}
+
+.eyebrow {
+	color: #888;
+	font-size: 0.9rem;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	margin-bottom: 0.5rem;
+}
+
+.section-head h2 {
+	font-size: 2.2rem;
+	margin-bottom: 0;
+	/* Убираем лишний margin */
+}
+
+/* Hero Section */
+.hero-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	/* Две колонки */
+	gap: 4rem;
+	align-items: center;
+}
+
+.hero-content h1 {
+	font-size: 3rem;
+	margin-bottom: 1.5rem;
+	line-height: 1.1;
+}
+
+.hero-copy {
+	font-size: 1.1rem;
+	margin-bottom: 2rem;
+	color: #555;
+}
+
+.hero-actions {
+	display: flex;
+	gap: 1rem;
+	margin-bottom: 2rem;
+}
+
+/* Кнопки */
+.btn {
+	display: inline-block;
+	padding: 0.8rem 1.8rem;
+	border-radius: 5px;
+	text-decoration: none;
+	font-weight: 600;
+	font-size: 1rem;
+	transition: all 0.3s ease;
+	cursor: pointer;
+	border: none;
+	/* Для кнопок, чтобы не было рамок */
+}
+
+.btn-primary {
+	background-color: #333;
+	/* Темный цвет для основной кнопки */
+	color: white;
+}
+
+.btn-primary:hover {
+	background-color: #007bff;
+	/* Цвет бренда при наведении */
+}
+
+.btn-ghost {
+	background-color: transparent;
+	color: #333;
+	border: 1px solid #333;
+}
+
+.btn-ghost:hover {
+	background-color: #f4f4f4;
+	border-color: #007bff;
+	color: #007bff;
+}
+
+.hero-stats {
+	list-style: none;
+	display: flex;
+	gap: 2rem;
+	margin-top: 1rem;
+}
+
+.hero-stats li {
+	text-align: center;
+}
+
+.hero-stats strong {
+	display: block;
+	font-size: 1.8rem;
+	font-weight: 700;
+	color: #007bff;
+}
+
+.hero-stats span {
+	font-size: 0.9rem;
+	color: #666;
+}
+
+/* Карточка "Look of the week" */
+.hero-card {
+	background: #fff;
+	border-radius: 8px;
+	padding: 2rem;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+	text-align: center;
+}
+
+.hero-card-label {
+	color: #888;
+	font-size: 0.9rem;
+	text-transform: uppercase;
+	margin-bottom: 0.5rem;
+}
+
+.hero-card h2 {
+	font-size: 2rem;
+	margin-bottom: 1rem;
+}
+
+.hero-card p {
+	margin-bottom: 1.5rem;
+	color: #555;
+}
+
+.hero-card-price {
+	font-size: 1.8rem;
+	font-weight: 700;
+	color: #28a745;
+	/* Зеленый для цены */
+	margin-bottom: 1.5rem;
+}
+
+.hero-card a {
+	display: block;
+	text-decoration: none;
+	font-weight: 600;
+	color: #007bff;
+	transition: color 0.3s ease;
+}
+
+.hero-card a:hover {
+	color: #0056b3;
+}
+
+/* Категории */
+.category-grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	/* 4 колонки */
+	gap: 1.5rem;
+}
+
+.category-card {
+	background: #fff;
+	border-radius: 8px;
+	padding: 1.5rem;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	text-align: center;
+}
+
+.category-card h3 {
+	font-size: 1.3rem;
+	margin-bottom: 0.5rem;
+	color: #0056b3;
+}
+
+.category-card p {
+	font-size: 0.9rem;
+	color: #666;
+	margin-bottom: 1rem;
+}
+
+.category-card a {
+	text-decoration: none;
+	font-weight: 600;
+	color: #007bff;
+}
+
+.category-card a:hover {
+	color: #0056b3;
+}
+
+/* Хиты продаж (Product Grid) */
+.product-grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	/* 4 колонки */
+	gap: 1.5rem;
+}
+
+.product-card {
+	background: #fff;
+	border-radius: 8px;
+	overflow: hidden;
+	/* Чтобы изображения не вылезали за границы */
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.product-image {
+	width: 100%;
+	height: 250px;
+	/* Фиксированная высота для изображений */
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+/* Фоновые изображения для продуктов (ЗАМЕНИТЕ НА РЕАЛЬНЫЕ ИЗОБРАЖЕНИЯ!) */
+.product-image-1 {
+	background-image: url('assets/images/product1.jpg');
+}
+
+/* Пример */
+.product-image-2 {
+	background-image: url('assets/images/product2.jpg');
+}
+
+/* Пример */
+.product-image-3 {
+	background-image: url('assets/images/product3.jpg');
+}
+
+/* Пример */
+.product-image-4 {
+	background-image: url('assets/images/product4.jpg');
+}
+
+/* Пример */
+
+.product-meta {
+	padding: 1rem;
+}
+
+.product-meta h3 {
+	font-size: 1.1rem;
+	margin-bottom: 0.3rem;
+	color: #0056b3;
+}
+
+.product-meta p {
+	/* Цвет товара */
+	font-size: 0.9rem;
+	color: #888;
+	margin-bottom: 0.8rem;
+}
+
+.price-row {
+	display: flex;
+	align-items: center;
+	gap: 0.8rem;
+}
+
+.price {
+	font-weight: 700;
+	font-size: 1.2rem;
+	color: #28a745;
+	/* Зеленый */
+}
+
+.price-old {
+	text-decoration: line-through;
+	color: #aaa;
+	font-size: 0.9rem;
+}
+
+/* Секция "О бренде" */
+.about-block {
+	background: #fff;
+	padding: 3rem;
+	border-radius: 8px;
+	text-align: center;
+}
+
+.about-block h2 {
+	font-size: 2.5rem;
+	max-width: 800px;
+	/* Ограничиваем ширину текста */
+	margin: 0 auto;
+	line-height: 1.2;
+}
+
+/* Подвал сайта */
+.site-footer {
+	background: #222;
+	/* Темный фон для подвала */
+	color: #eee;
+	padding: 3rem 0;
+	margin-top: 4rem;
+	/* Отступ сверху */
+}
+
+.footer-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	/* 3 колонки */
+	gap: 2rem;
+	margin-bottom: 2rem;
+}
+
+.footer-title {
+	font-size: 1.2rem;
+	font-weight: 700;
+	margin-bottom: 1rem;
+	color: #fff;
+}
+
+.site-footer a {
+	color: #ccc;
+	text-decoration: none;
+	display: block;
+	/* Каждый пункт меню в новой строке */
+	margin-bottom: 0.5rem;
+	transition: color 0.3s ease;
+}
+
+.site-footer a:hover {
+	color: #007bff;
+}
+
+.footer-bottom {
+	text-align: center;
+	padding-top: 1.5rem;
+	border-top: 1px solid #444;
+	font-size: 0.9rem;
+	color: #aaa;
+}
+
+/* Медиа-запросы для адаптивности */
+
+/* Планшеты и ниже */
+@media (max-width: 992px) {
+	.hero-grid {
+		grid-template-columns: 1fr;
+		/* Одна колонка */
+		gap: 2rem;
+	}
+
+	.hero-content {
+		order: 2;
+		/* Контент ниже изображения */
+	}
+
+	.hero-card {
+		order: 1;
+		/* Карточка выше */
+	}
+
+	.section-head h2 {
+		font-size: 1.8rem;
+	}
+
+	.hero-content h1 {
+		font-size: 2.5rem;
+	}
+
+	.about-block h2 {
+		font-size: 2rem;
+	}
+
+	.category-grid,
+	.product-grid {
+		grid-template-columns: repeat(2, 1fr);
+		/* 2 колонки */
+	}
+
+	.footer-grid {
+		grid-template-columns: repeat(2, 1fr);
+		/* 2 колонки */
+	}
+}
+
+/* Мобильные устройства */
+@media (max-width: 768px) {
+	.nav-toggle {
+		display: block;
+		/* Показываем кнопку меню */
+	}
+
+	.site-nav {
+		display: none;
+		/* Скрываем меню по умолчанию */
+		flex-direction: column;
+		position: absolute;
+		top: 100%;
+		/* Располагаем под шапкой */
+		left: 0;
+		width: 100%;
+		background: #fff;
+		padding: 1rem;
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+		gap: 10px;
+	}
+
+	.site-nav a {
+		padding: 0.5rem 0;
+		width: 100%;
+		text-align: center;
+	}
+
+	/* Класс для показа меню (будет добавлен через JS) */
+	.site-nav.is-open {
+		display: flex;
+	}
+
+	.header-cart {
+		margin-left: auto;
+		/* Сдвигаем корзину влево */
+	}
+
+	.header-inner {
+		flex-wrap: wrap;
+		/* Разрешаем перенос элементов */
+	}
+
+	.hero-stats {
+		flex-direction: column;
+		/* Статистика вертикально */
+		gap: 1rem;
+	}
+
+	.category-grid,
+	.product-grid {
+		grid-template-columns: 1fr;
+		/* Одна колонка */
+	}
+
+	.footer-grid {
+		grid-template-columns: 1fr;
+		/* Одна колонка */
+	}
+
+	.hero-card {
+		margin-top: 2rem;
+	}
+}
+
+/* Подключение шрифтов */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Prata&display=swap');
